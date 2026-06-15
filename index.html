@@ -136,6 +136,39 @@
     @keyframes drop { 0%{transform:translateY(-110%);opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{transform:translateY(210%);opacity:0} }
     .scroll-drop { animation: drop 2.2s cubic-bezier(.4,0,.2,1) infinite; }
 
+    /* ── LANGUAGE SWITCHER ─────────────────────────────── */
+    .lang-toggle { display:inline-flex; align-items:center; gap:.4rem; cursor:pointer; }
+    .lang-menu { z-index:60; min-width:152px; border-radius:14px; overflow:hidden; padding:.4rem;
+      background:rgba(4,20,15,.97); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      border:1px solid rgba(255,255,255,.12); box-shadow:0 18px 40px -12px rgba(0,0,0,.6); }
+    .lang-menu .lang-opt { display:flex; align-items:center; gap:.55rem; width:100%; text-align:left;
+      padding:.55rem .7rem; border-radius:9px; font-size:.85rem; color:rgba(255,255,255,.8);
+      transition:background .2s,color .2s; cursor:pointer; }
+    .lang-menu .lang-opt:hover { background:rgba(255,255,255,.08); color:#fff; }
+    .lang-opt.active { background:rgba(16,185,129,.16); color:var(--emerald-soft) !important; }
+    .hero-langpill { display:inline-flex; align-items:center; gap:.4rem; background:rgba(4,20,15,.5);
+      backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.2);
+      color:#fff; padding:.5rem .85rem; border-radius:999px; font-size:.8rem; font-weight:600; transition:background .25s; }
+    .hero-langpill:hover { background:rgba(4,20,15,.72); }
+
+    /* ── LANGUAGE TOAST ────────────────────────────────── */
+    #langToast { position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(150%);
+      z-index:55; opacity:0; max-width:92vw; transition:transform .55s cubic-bezier(.16,1,.3,1), opacity .45s ease; }
+    #langToast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+    #langToast .lt-inner { display:flex; align-items:center; gap:.7rem; padding:.65rem .7rem .65rem 1.05rem;
+      border-radius:16px; background:rgba(4,20,15,.93); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+      border:1px solid rgba(52,211,153,.4); box-shadow:0 18px 44px -12px rgba(0,0,0,.6), 0 0 0 4px rgba(16,185,129,.07); }
+    #langToast .lt-msg { color:#fff; font-size:.88rem; font-weight:500; line-height:1.3; }
+    #langToast .lt-go { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; flex:none;
+      border-radius:50%; color:#fff; background:linear-gradient(135deg,var(--emerald),var(--teal));
+      box-shadow:0 8px 18px -6px rgba(16,185,129,.7); cursor:pointer; transition:transform .2s; }
+    #langToast .lt-go:hover { transform:scale(1.08); }
+    #langToast .lt-go svg { animation: bobDown 1.4s ease-in-out infinite; }
+    @keyframes bobDown { 0%,100%{transform:translateY(-2px)} 50%{transform:translateY(3px)} }
+    #langToast .lt-close { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; flex:none;
+      color:rgba(255,255,255,.5); cursor:pointer; transition:color .2s; }
+    #langToast .lt-close:hover { color:#fff; }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
       .reveal,.reveal-l,.reveal-r,.reveal-sc { opacity:1 !important; transform:none !important; }
@@ -161,13 +194,26 @@
           <span class="font-display font-light text-xl" style="color:var(--emerald-soft)"> Clinic</span>
         </div>
       </a>
-      <div class="hidden lg:flex items-center gap-8">
-        <a href="#why"     class="nav-a text-sm font-medium">Yaklaşım</a>
-        <a href="#process" class="nav-a text-sm font-medium">Süreç</a>
-        <a href="#results" class="nav-a text-sm font-medium">Sonuçlar</a>
-        <a href="#about"   class="nav-a text-sm font-medium">Dr. Bahadır</a>
-        <a href="#clinic"  class="nav-a text-sm font-medium">Klinik</a>
-        <a href="#contact" class="btn-prim text-white px-5 py-2.5 rounded-xl text-sm font-semibold">Ücretsiz Ön Görüşme</a>
+      <div class="hidden lg:flex items-center gap-7">
+        <a href="#why"     class="nav-a text-sm font-medium" data-i18n="nav_why">Yaklaşım</a>
+        <a href="#process" class="nav-a text-sm font-medium" data-i18n="nav_process">Süreç</a>
+        <a href="#results" class="nav-a text-sm font-medium" data-i18n="nav_results">Sonuçlar</a>
+        <a href="#about"   class="nav-a text-sm font-medium" data-i18n="nav_about">Dr. Bahadır</a>
+        <a href="#clinic"  class="nav-a text-sm font-medium" data-i18n="nav_clinic">Klinik</a>
+        <div class="lang-switch relative">
+          <button class="lang-toggle nav-a text-sm font-medium" aria-haspopup="true" aria-expanded="false" aria-label="Dil / Language">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>
+            <span class="lang-current">TR</span>
+            <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="lang-menu hidden absolute right-0 mt-3">
+            <button class="lang-opt" data-lang="tr"><span>🇹🇷</span> Türkçe</button>
+            <button class="lang-opt" data-lang="en"><span>🇬🇧</span> English</button>
+            <button class="lang-opt" data-lang="ru"><span>🇷🇺</span> Русский</button>
+            <button class="lang-opt" data-lang="de"><span>🇩🇪</span> Deutsch</button>
+          </div>
+        </div>
+        <a href="#contact" class="btn-prim text-white px-5 py-2.5 rounded-xl text-sm font-semibold" data-i18n="nav_cta">Ücretsiz Ön Görüşme</a>
       </div>
       <button id="hbBtn" class="lg:hidden p-2 text-white" aria-label="Menü">
         <svg id="hbOpen"  class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -177,12 +223,18 @@
   </div>
   <div id="mobileMenu" class="hidden lg:hidden border-t border-white/10" style="background:rgba(4,20,15,.97);backdrop-filter:blur(20px)">
     <div class="px-5 py-5 space-y-1">
-      <a href="#why"     class="block text-white/80 hover:text-white py-3 text-sm font-medium border-b border-white/5" onclick="closeMob()">Yaklaşım</a>
-      <a href="#process" class="block text-white/80 hover:text-white py-3 text-sm font-medium border-b border-white/5" onclick="closeMob()">Süreç</a>
-      <a href="#results" class="block text-white/80 hover:text-white py-3 text-sm font-medium border-b border-white/5" onclick="closeMob()">Sonuçlar</a>
-      <a href="#about"   class="block text-white/80 hover:text-white py-3 text-sm font-medium border-b border-white/5" onclick="closeMob()">Dr. Bahadır Bektaş</a>
-      <a href="#clinic"  class="block text-white/80 hover:text-white py-3 text-sm font-medium border-b border-white/5" onclick="closeMob()">Klinik</a>
-      <a href="#contact" class="block btn-prim text-white text-center py-3.5 rounded-xl text-sm font-semibold mt-4" onclick="closeMob()">Ücretsiz Ön Görüşme</a>
+      <a href="#why"     class="block text-white/80 hover:text-white py-3 text-sm font-medium border-b border-white/5" onclick="closeMob()" data-i18n="nav_why">Yaklaşım</a>
+      <a href="#process" class="block text-white/80 hover:text-white py-3 text-sm font-medium border-b border-white/5" onclick="closeMob()" data-i18n="nav_process">Süreç</a>
+      <a href="#results" class="block text-white/80 hover:text-white py-3 text-sm font-medium border-b border-white/5" onclick="closeMob()" data-i18n="nav_results">Sonuçlar</a>
+      <a href="#about"   class="block text-white/80 hover:text-white py-3 text-sm font-medium border-b border-white/5" onclick="closeMob()" data-i18n="footer_about">Dr. Bahadır Bektaş</a>
+      <a href="#clinic"  class="block text-white/80 hover:text-white py-3 text-sm font-medium border-b border-white/5" onclick="closeMob()" data-i18n="nav_clinic">Klinik</a>
+      <div class="flex gap-2 pt-4">
+        <button class="lang-opt flex-1 justify-center !text-white/80 bg-white/5 hover:bg-white/10 rounded-lg py-2.5 text-sm font-semibold transition-colors" data-lang="tr">🇹🇷 TR</button>
+        <button class="lang-opt flex-1 justify-center !text-white/80 bg-white/5 hover:bg-white/10 rounded-lg py-2.5 text-sm font-semibold transition-colors" data-lang="en">🇬🇧 EN</button>
+        <button class="lang-opt flex-1 justify-center !text-white/80 bg-white/5 hover:bg-white/10 rounded-lg py-2.5 text-sm font-semibold transition-colors" data-lang="ru">🇷🇺 RU</button>
+        <button class="lang-opt flex-1 justify-center !text-white/80 bg-white/5 hover:bg-white/10 rounded-lg py-2.5 text-sm font-semibold transition-colors" data-lang="de">🇩🇪 DE</button>
+      </div>
+      <a href="#contact" class="block btn-prim text-white text-center py-3.5 rounded-xl text-sm font-semibold mt-4" onclick="closeMob()" data-i18n="nav_cta">Ücretsiz Ön Görüşme</a>
     </div>
   </div>
 </nav>
@@ -201,6 +253,29 @@
     <div class="brain-core"></div>
     <div class="brain-particles" id="sparks"></div>
 
+    <!-- always-visible language switcher (hero) -->
+    <div class="lang-switch absolute z-20" style="left:3.5%; top:4%;">
+      <button class="hero-langpill lang-toggle" aria-haspopup="true" aria-expanded="false" aria-label="Dil / Language">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>
+        <span class="lang-current">TR</span>
+        <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="lang-menu hidden absolute left-0 mt-2">
+        <button class="lang-opt" data-lang="tr"><span>🇹🇷</span> Türkçe</button>
+        <button class="lang-opt" data-lang="en"><span>🇬🇧</span> English</button>
+        <button class="lang-opt" data-lang="ru"><span>🇷🇺</span> Русский</button>
+        <button class="lang-opt" data-lang="de"><span>🇩🇪</span> Deutsch</button>
+      </div>
+    </div>
+
+    <!-- clickable hotspots over baked-in top navigation -->
+    <a href="#hero"    class="hero-hotspot" aria-label="Anasayfa"        style="left:26.5%; top:4.3%; width:8%;    height:5.6%;"></a>
+    <a href="#about"   class="hero-hotspot" aria-label="Hakkımızda"      style="left:35%;   top:4.3%; width:8.5%;  height:5.6%;"></a>
+    <a href="#why"     class="hero-hotspot" aria-label="BioFit Yaklaşımı" style="left:43.5%; top:4.3%; width:11%;   height:5.6%;"></a>
+    <a href="#process" class="hero-hotspot" aria-label="Hizmetlerimiz"   style="left:54.5%; top:4.3%; width:9%;    height:5.6%;"></a>
+    <a href="#contact" class="hero-hotspot" aria-label="Paketler"        style="left:63.5%; top:4.3%; width:6.5%;  height:5.6%;"></a>
+    <a href="#contact" class="hero-hotspot" aria-label="İletişim"        style="left:70.5%; top:4.3%; width:7.5%;  height:5.6%;"></a>
+
     <!-- clickable hotspots over baked-in buttons -->
     <a href="https://wa.me/905551653478" class="hero-hotspot" aria-label="Bahadır Bey ile ücretsiz ön görüşme"
        style="left:3.5%; top:64.5%; width:33%; height:7%;"></a>
@@ -209,7 +284,7 @@
 
     <!-- scroll cue -->
     <a href="#why" class="hero-scrollcue flex-col items-center gap-2 hidden sm:flex" aria-label="Aşağı kaydır">
-      <span class="text-white/40 text-[9px] font-semibold tracking-[0.3em] uppercase">Keşfet</span>
+      <span class="text-white/40 text-[9px] font-semibold tracking-[0.3em] uppercase" data-i18n="hero_scroll">Keşfet</span>
       <div class="relative w-px h-9 bg-white/15 overflow-hidden rounded-full">
         <div class="scroll-drop absolute inset-x-0 top-0 h-1/2 rounded-full" style="background:linear-gradient(180deg,var(--emerald-soft),transparent)"></div>
       </div>
@@ -228,11 +303,11 @@
 <section id="why" class="py-24 lg:py-36" style="background:var(--cream)">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="max-w-2xl mb-16 reveal">
-      <p class="eyebrow text-xs font-bold uppercase mb-4" style="color:var(--teal)">Neden BioFit Clinic</p>
-      <h2 class="font-display text-4xl lg:text-6xl font-semibold leading-[1.05] mb-5" style="color:var(--ink)">
+      <p class="eyebrow text-xs font-bold uppercase mb-4" style="color:var(--teal)" data-i18n="why_eyebrow">Neden BioFit Clinic</p>
+      <h2 class="font-display text-4xl lg:text-6xl font-semibold leading-[1.05] mb-5" style="color:var(--ink)" data-i18n="why_title">
         Bilime dayalı,<br><span class="italic" style="color:var(--teal)">kişiye özgü</span> yaklaşım
       </h2>
-      <p class="text-lg leading-relaxed" style="color:var(--muted)">
+      <p class="text-lg leading-relaxed" style="color:var(--muted)" data-i18n="why_sub">
         Vücudunuzun biyokimyasal yapısını okuyoruz; genel diyet listelerinin ötesinde, size özel bir harita çiziyoruz.
       </p>
     </div>
@@ -241,29 +316,29 @@
         <div class="icon-orb w-14 h-14 rounded-2xl flex items-center justify-center mb-7" style="background:linear-gradient(135deg,rgba(16,185,129,.14),rgba(14,140,122,.08))">
           <svg class="w-7 h-7" style="color:var(--teal)" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
         </div>
-        <h3 class="font-display text-xl font-semibold mb-3" style="color:var(--ink)">Kan Tahlili Analizi</h3>
-        <p class="text-sm leading-relaxed" style="color:var(--muted)">Kapsamlı kan tahliliyle vitamin–mineral eksikliklerinizi ve metabolik durumunuzu bilimsel olarak değerlendiriyoruz.</p>
+        <h3 class="font-display text-xl font-semibold mb-3" style="color:var(--ink)" data-i18n="card1_t">Kan Tahlili Analizi</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted)" data-i18n="card1_d">Kapsamlı kan tahliliyle vitamin–mineral eksikliklerinizi ve metabolik durumunuzu bilimsel olarak değerlendiriyoruz.</p>
       </div>
       <div class="card reveal bg-white rounded-3xl p-8 border" style="border-color:rgba(14,140,122,.14);transition-delay:.13s">
         <div class="icon-orb w-14 h-14 rounded-2xl flex items-center justify-center mb-7" style="background:linear-gradient(135deg,rgba(201,162,75,.16),rgba(227,193,120,.08))">
           <svg class="w-7 h-7" style="color:var(--gold)" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
         </div>
-        <h3 class="font-display text-xl font-semibold mb-3" style="color:var(--ink)">Kan Grubuna Göre Beslenme</h3>
-        <p class="text-sm leading-relaxed" style="color:var(--muted)">Kan grubunuza özel protokollerle vücudunuzun doğal ritmine uygun, sürdürülebilir bir beslenme düzeni.</p>
+        <h3 class="font-display text-xl font-semibold mb-3" style="color:var(--ink)" data-i18n="card2_t">Kan Grubuna Göre Beslenme</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted)" data-i18n="card2_d">Kan grubunuza özel protokollerle vücudunuzun doğal ritmine uygun, sürdürülebilir bir beslenme düzeni.</p>
       </div>
       <div class="card reveal bg-white rounded-3xl p-8 border" style="border-color:rgba(14,140,122,.14);transition-delay:.21s">
         <div class="icon-orb w-14 h-14 rounded-2xl flex items-center justify-center mb-7" style="background:linear-gradient(135deg,rgba(16,185,129,.14),rgba(14,140,122,.08))">
           <svg class="w-7 h-7" style="color:var(--emerald)" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
         </div>
-        <h3 class="font-display text-xl font-semibold mb-3" style="color:var(--ink)">Vücut Kompozisyon Analizi</h3>
-        <p class="text-sm leading-relaxed" style="color:var(--muted)">İleri biyoimpedans cihazlarıyla yağ–kas oranı, kemik yoğunluğu ve bazal metabolizma hızınızı ölçüyoruz.</p>
+        <h3 class="font-display text-xl font-semibold mb-3" style="color:var(--ink)" data-i18n="card3_t">Vücut Kompozisyon Analizi</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted)" data-i18n="card3_d">İleri biyoimpedans cihazlarıyla yağ–kas oranı, kemik yoğunluğu ve bazal metabolizma hızınızı ölçüyoruz.</p>
       </div>
       <div class="card reveal rounded-3xl p-8 shadow-xl" style="background:linear-gradient(160deg,var(--forest-mid),var(--forest));transition-delay:.29s">
         <div class="icon-orb w-14 h-14 rounded-2xl flex items-center justify-center mb-7" style="background:rgba(52,211,153,.18)">
           <svg class="w-7 h-7" style="color:var(--emerald-soft)" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
         </div>
-        <h3 class="font-display text-xl font-semibold text-white mb-3">Yapay Zeka Destekli Takip</h3>
-        <p class="text-sm leading-relaxed text-white/55">AI Concierge ile 7/24 akıllı asistan desteği; programınız verilerle sürekli güncellenir, yanınızda kalır.</p>
+        <h3 class="font-display text-xl font-semibold text-white mb-3" data-i18n="card4_t">Yapay Zeka Destekli Takip</h3>
+        <p class="text-sm leading-relaxed text-white/55" data-i18n="card4_d">AI Concierge ile 7/24 akıllı asistan desteği; programınız verilerle sürekli güncellenir, yanınızda kalır.</p>
       </div>
     </div>
   </div>
@@ -274,10 +349,10 @@
 <section class="py-20" style="background:var(--forest)">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6">
-      <div class="text-center reveal-sc"><div class="font-display text-5xl lg:text-6xl font-black text-white counter" data-target="2500" data-suffix="+">0</div><div class="text-sm mt-2 font-medium" style="color:var(--emerald-soft)">Başarılı Danışan</div></div>
-      <div class="text-center reveal-sc" style="transition-delay:.1s"><div class="font-display text-5xl lg:text-6xl font-black text-white counter" data-target="94" data-suffix="%">0</div><div class="text-sm mt-2 font-medium" style="color:var(--emerald-soft)">Hedef Başarısı</div></div>
-      <div class="text-center reveal-sc" style="transition-delay:.2s"><div class="font-display text-5xl lg:text-6xl font-black text-white counter" data-target="8" data-suffix="+">0</div><div class="text-sm mt-2 font-medium" style="color:var(--emerald-soft)">Yıllık Deneyim</div></div>
-      <div class="text-center reveal-sc" style="transition-delay:.3s"><div class="font-display text-5xl lg:text-6xl font-black text-white counter" data-target="3" data-suffix="">0</div><div class="text-sm mt-2 font-medium" style="color:var(--emerald-soft)">Dil Desteği</div></div>
+      <div class="text-center reveal-sc"><div class="font-display text-5xl lg:text-6xl font-black text-white counter" data-target="2500" data-suffix="+">0</div><div class="text-sm mt-2 font-medium" style="color:var(--emerald-soft)" data-i18n="stat1">Başarılı Danışan</div></div>
+      <div class="text-center reveal-sc" style="transition-delay:.1s"><div class="font-display text-5xl lg:text-6xl font-black text-white counter" data-target="94" data-suffix="%">0</div><div class="text-sm mt-2 font-medium" style="color:var(--emerald-soft)" data-i18n="stat2">Hedef Başarısı</div></div>
+      <div class="text-center reveal-sc" style="transition-delay:.2s"><div class="font-display text-5xl lg:text-6xl font-black text-white counter" data-target="8" data-suffix="+">0</div><div class="text-sm mt-2 font-medium" style="color:var(--emerald-soft)" data-i18n="stat3">Yıllık Deneyim</div></div>
+      <div class="text-center reveal-sc" style="transition-delay:.3s"><div class="font-display text-5xl lg:text-6xl font-black text-white counter" data-target="4" data-suffix="">0</div><div class="text-sm mt-2 font-medium" style="color:var(--emerald-soft)" data-i18n="stat4">Dil Desteği</div></div>
     </div>
   </div>
 </section>
@@ -287,8 +362,8 @@
 <section id="process" class="py-24 lg:py-36" style="background:var(--cream)">
   <div class="max-w-6xl mx-auto px-5 lg:px-8">
     <div class="text-center max-w-2xl mx-auto mb-20 reveal">
-      <p class="eyebrow text-xs font-bold uppercase mb-4" style="color:var(--teal)">Nasıl Çalışıyoruz</p>
-      <h2 class="font-display text-4xl lg:text-6xl font-semibold leading-[1.05]" style="color:var(--ink)">Dört adımda <span class="italic" style="color:var(--teal)">dönüşüm</span></h2>
+      <p class="eyebrow text-xs font-bold uppercase mb-4" style="color:var(--teal)" data-i18n="proc_eyebrow">Nasıl Çalışıyoruz</p>
+      <h2 class="font-display text-4xl lg:text-6xl font-semibold leading-[1.05]" style="color:var(--ink)" data-i18n="proc_title">Dört adımda <span class="italic" style="color:var(--teal)">dönüşüm</span></h2>
     </div>
     <div class="relative">
       <div class="tl-line absolute left-[27px] md:left-1/2 md:-translate-x-1/2 top-2 bottom-2 w-[3px] rounded-full opacity-60"></div>
@@ -296,31 +371,31 @@
         <div class="md:grid md:grid-cols-2 md:gap-12 items-center reveal">
           <div class="md:text-right md:pr-14 pl-16 md:pl-0 relative">
             <span class="tl-dot absolute left-4 md:left-auto md:right-[-11px] top-1 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:var(--teal)">1</span>
-            <h3 class="font-display text-2xl font-semibold mb-2" style="color:var(--ink)">İlk Görüşme & Tahliller</h3>
-            <p class="text-sm leading-relaxed" style="color:var(--muted)">Sağlık geçmişiniz dinlenir, kan tahlili ve vücut analizi planlanır. Hedefleriniz netleştirilir.</p>
+            <h3 class="font-display text-2xl font-semibold mb-2" style="color:var(--ink)" data-i18n="step1_t">İlk Görüşme & Tahliller</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--muted)" data-i18n="step1_d">Sağlık geçmişiniz dinlenir, kan tahlili ve vücut analizi planlanır. Hedefleriniz netleştirilir.</p>
           </div><div class="hidden md:block"></div>
         </div>
         <div class="md:grid md:grid-cols-2 md:gap-12 items-center reveal md:mt-[-2rem]">
           <div class="hidden md:block"></div>
           <div class="md:pl-14 pl-16 relative">
             <span class="tl-dot absolute left-4 md:left-[-11px] top-1 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:var(--emerald)">2</span>
-            <h3 class="font-display text-2xl font-semibold mb-2" style="color:var(--ink)">Bilimsel Değerlendirme</h3>
-            <p class="text-sm leading-relaxed" style="color:var(--muted)">Sonuçlar biyomedikal bakış açısıyla yorumlanır; eksiklikler ve metabolik profiliniz çıkarılır.</p>
+            <h3 class="font-display text-2xl font-semibold mb-2" style="color:var(--ink)" data-i18n="step2_t">Bilimsel Değerlendirme</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--muted)" data-i18n="step2_d">Sonuçlar biyomedikal bakış açısıyla yorumlanır; eksiklikler ve metabolik profiliniz çıkarılır.</p>
           </div>
         </div>
         <div class="md:grid md:grid-cols-2 md:gap-12 items-center reveal md:mt-[-2rem]">
           <div class="md:text-right md:pr-14 pl-16 md:pl-0 relative">
             <span class="tl-dot absolute left-4 md:left-auto md:right-[-11px] top-1 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:var(--gold)">3</span>
-            <h3 class="font-display text-2xl font-semibold mb-2" style="color:var(--ink)">Kişiye Özel Program</h3>
-            <p class="text-sm leading-relaxed" style="color:var(--muted)">Damak tadınıza ve yaşam tarzınıza uygun, uygulanabilir ve sürdürülebilir beslenme planınız hazırlanır.</p>
+            <h3 class="font-display text-2xl font-semibold mb-2" style="color:var(--ink)" data-i18n="step3_t">Kişiye Özel Program</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--muted)" data-i18n="step3_d">Damak tadınıza ve yaşam tarzınıza uygun, uygulanabilir ve sürdürülebilir beslenme planınız hazırlanır.</p>
           </div><div class="hidden md:block"></div>
         </div>
         <div class="md:grid md:grid-cols-2 md:gap-12 items-center reveal md:mt-[-2rem]">
           <div class="hidden md:block"></div>
           <div class="md:pl-14 pl-16 relative">
             <span class="tl-dot absolute left-4 md:left-[-11px] top-1 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:var(--teal-dark)">4</span>
-            <h3 class="font-display text-2xl font-semibold mb-2" style="color:var(--ink)">AI Destekli Takip</h3>
-            <p class="text-sm leading-relaxed" style="color:var(--muted)">AI Concierge ve düzenli kontrollerle ilerlemeniz izlenir; program ihtiyaçlarınıza göre güncellenir. Kalıcı sonuç hedeflenir.</p>
+            <h3 class="font-display text-2xl font-semibold mb-2" style="color:var(--ink)" data-i18n="step4_t">AI Destekli Takip</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--muted)" data-i18n="step4_d">AI Concierge ve düzenli kontrollerle ilerlemeniz izlenir; program ihtiyaçlarınıza göre güncellenir. Kalıcı sonuç hedeflenir.</p>
           </div>
         </div>
       </div>
@@ -334,28 +409,28 @@
   <div class="aurora" style="opacity:.25"><span class="a2"></span></div>
   <div class="max-w-7xl mx-auto px-5 lg:px-8 relative z-10">
     <div class="text-center max-w-2xl mx-auto mb-16 reveal">
-      <p class="eyebrow text-xs font-bold uppercase mb-4" style="color:var(--emerald-soft)">Gerçek Sonuçlar</p>
-      <h2 class="font-display text-4xl lg:text-6xl font-semibold leading-[1.05] text-white">Gerçek danışanlar,<br><span class="italic grad-text">somut dönüşümler</span></h2>
+      <p class="eyebrow text-xs font-bold uppercase mb-4" style="color:var(--emerald-soft)" data-i18n="res_eyebrow">Gerçek Sonuçlar</p>
+      <h2 class="font-display text-4xl lg:text-6xl font-semibold leading-[1.05] text-white" data-i18n="res_title">Gerçek danışanlar,<br><span class="italic grad-text">somut dönüşümler</span></h2>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-7 mb-12">
       <div class="img-zoom relative rounded-3xl overflow-hidden h-80 lg:h-[460px] reveal-l">
         <img src="images/result1.jpeg" alt="Danışan dönüşümü" class="w-full h-full object-cover">
         <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(4,20,15,.85),transparent 55%)"></div>
-        <div class="absolute top-5 right-5 glass text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5"><svg class="w-3.5 h-3.5" style="color:var(--emerald-soft)" fill="currentColor" viewBox="0 0 20 20"><path d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4l3.3 3.3 6.8-6.8a1 1 0 011.4 0z"/></svg>Doğrulanmış</div>
-        <div class="absolute bottom-6 left-6"><div class="font-display text-4xl font-black text-white">−24 kg</div><div class="text-sm mt-1" style="color:var(--emerald-soft)">6 aylık program sonucu</div></div>
+        <div class="absolute top-5 right-5 glass text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5"><svg class="w-3.5 h-3.5" style="color:var(--emerald-soft)" fill="currentColor" viewBox="0 0 20 20"><path d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4l3.3 3.3 6.8-6.8a1 1 0 011.4 0z"/></svg><span data-i18n="res_verified">Doğrulanmış</span></div>
+        <div class="absolute bottom-6 left-6"><div class="font-display text-4xl font-black text-white">−24 kg</div><div class="text-sm mt-1" style="color:var(--emerald-soft)" data-i18n="res1_sub">6 aylık program sonucu</div></div>
       </div>
       <div class="img-zoom relative rounded-3xl overflow-hidden h-80 lg:h-[460px] reveal-r">
         <img src="images/result2.jpeg" alt="Danışan dönüşümü" class="w-full h-full object-cover">
         <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(4,20,15,.85),transparent 55%)"></div>
-        <div class="absolute top-5 right-5 glass text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5"><svg class="w-3.5 h-3.5" style="color:var(--emerald-soft)" fill="currentColor" viewBox="0 0 20 20"><path d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4l3.3 3.3 6.8-6.8a1 1 0 011.4 0z"/></svg>Doğrulanmış</div>
-        <div class="absolute bottom-6 left-6"><div class="font-display text-4xl font-black text-white">−17 kg</div><div class="text-sm mt-1" style="color:var(--emerald-soft)">metabolik denge ile</div></div>
+        <div class="absolute top-5 right-5 glass text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5"><svg class="w-3.5 h-3.5" style="color:var(--emerald-soft)" fill="currentColor" viewBox="0 0 20 20"><path d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4l3.3 3.3 6.8-6.8a1 1 0 011.4 0z"/></svg><span data-i18n="res_verified">Doğrulanmış</span></div>
+        <div class="absolute bottom-6 left-6"><div class="font-display text-4xl font-black text-white">−17 kg</div><div class="text-sm mt-1" style="color:var(--emerald-soft)" data-i18n="res2_sub">metabolik denge ile</div></div>
       </div>
     </div>
     <div class="max-w-3xl mx-auto text-center reveal">
       <svg class="w-10 h-10 mx-auto mb-5 opacity-40" style="color:var(--emerald-soft)" fill="currentColor" viewBox="0 0 24 24"><path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z"/></svg>
-      <p class="font-display text-2xl lg:text-3xl font-light italic text-white leading-snug mb-6">“Yıllarca denediğim diyetlerden farklıydı. İlk kez vücudumun gerçekten neye ihtiyacı olduğunu öğrendim ve kilolar geri gelmedi.”</p>
-      <p class="text-white/70 font-semibold">Bir BioFit danışanı</p>
-      <p class="text-white/40 text-sm">6 aylık program · Avsallar</p>
+      <p class="font-display text-2xl lg:text-3xl font-light italic text-white leading-snug mb-6" data-i18n="res_quote">“Yıllarca denediğim diyetlerden farklıydı. İlk kez vücudumun gerçekten neye ihtiyacı olduğunu öğrendim ve kilolar geri gelmedi.”</p>
+      <p class="text-white/70 font-semibold" data-i18n="res_quote_name">Bir BioFit danışanı</p>
+      <p class="text-white/40 text-sm" data-i18n="res_quote_meta">6 aylık program · Avsallar</p>
     </div>
   </div>
 </section>
@@ -372,18 +447,18 @@
         </div>
       </div>
       <div class="reveal-r">
-        <p class="eyebrow text-xs font-bold uppercase mb-4" style="color:var(--teal)">Kurucu Hekim</p>
-        <h2 class="font-display text-4xl lg:text-5xl font-semibold leading-[1.08] mb-6" style="color:var(--ink)">Dr. Dyt.<br>Bahadır Bektaş</h2>
-        <p class="text-lg leading-relaxed mb-6" style="color:var(--muted)">Diyetetik ile biyomedikal mühendisliğini birleştiren ender uzmanlardan. Beslenmeye yalnızca kalori değil; <span style="color:var(--ink)">metabolizma, biyokimya ve veri</span> penceresinden bakıyor. Akademik birikimini her danışanın kişisel programına taşıyor.</p>
+        <p class="eyebrow text-xs font-bold uppercase mb-4" style="color:var(--teal)" data-i18n="about_eyebrow">Kurucu Hekim</p>
+        <h2 class="font-display text-4xl lg:text-5xl font-semibold leading-[1.08] mb-6" style="color:var(--ink)" data-i18n="about_title">Dr. Dyt.<br>Bahadır Bektaş</h2>
+        <p class="text-lg leading-relaxed mb-6" style="color:var(--muted)" data-i18n="about_bio">Diyetetik ile biyomedikal mühendisliğini birleştiren ender uzmanlardan. Beslenmeye yalnızca kalori değil; <span style="color:var(--ink)">metabolizma, biyokimya ve veri</span> penceresinden bakıyor. Akademik birikimini her danışanın kişisel programına taşıyor.</p>
         <div class="grid grid-cols-3 gap-4 mb-8">
-          <div class="bg-white rounded-2xl p-5 text-center border" style="border-color:rgba(14,140,122,.14)"><div class="font-display text-2xl font-bold" style="color:var(--teal)">PhD</div><div class="text-xs mt-1" style="color:var(--muted)">Doktora</div></div>
-          <div class="bg-white rounded-2xl p-5 text-center border" style="border-color:rgba(14,140,122,.14)"><div class="font-display text-2xl font-bold" style="color:var(--gold)">8+</div><div class="text-xs mt-1" style="color:var(--muted)">Yıl Deneyim</div></div>
-          <div class="bg-white rounded-2xl p-5 text-center border" style="border-color:rgba(14,140,122,.14)"><div class="font-display text-2xl font-bold" style="color:var(--emerald)">2500+</div><div class="text-xs mt-1" style="color:var(--muted)">Danışan</div></div>
+          <div class="bg-white rounded-2xl p-5 text-center border" style="border-color:rgba(14,140,122,.14)"><div class="font-display text-2xl font-bold" style="color:var(--teal)">PhD</div><div class="text-xs mt-1" style="color:var(--muted)" data-i18n="about_phd_label">Doktora</div></div>
+          <div class="bg-white rounded-2xl p-5 text-center border" style="border-color:rgba(14,140,122,.14)"><div class="font-display text-2xl font-bold" style="color:var(--gold)">8+</div><div class="text-xs mt-1" style="color:var(--muted)" data-i18n="about_exp_label">Yıl Deneyim</div></div>
+          <div class="bg-white rounded-2xl p-5 text-center border" style="border-color:rgba(14,140,122,.14)"><div class="font-display text-2xl font-bold" style="color:var(--emerald)">2500+</div><div class="text-xs mt-1" style="color:var(--muted)" data-i18n="about_clients_label">Danışan</div></div>
         </div>
         <div class="flex flex-wrap gap-2.5">
-          <span class="text-xs font-medium px-3.5 py-2 rounded-full" style="background:rgba(14,140,122,.1);color:var(--teal-dark)">Doktora Diyetisyen</span>
-          <span class="text-xs font-medium px-3.5 py-2 rounded-full" style="background:rgba(14,140,122,.1);color:var(--teal-dark)">Biyomedikal Mühendis</span>
-          <span class="text-xs font-medium px-3.5 py-2 rounded-full" style="background:rgba(14,140,122,.1);color:var(--teal-dark)">Akademisyen</span>
+          <span class="text-xs font-medium px-3.5 py-2 rounded-full" style="background:rgba(14,140,122,.1);color:var(--teal-dark)" data-i18n="about_tag1">Doktora Diyetisyen</span>
+          <span class="text-xs font-medium px-3.5 py-2 rounded-full" style="background:rgba(14,140,122,.1);color:var(--teal-dark)" data-i18n="about_tag2">Biyomedikal Mühendis</span>
+          <span class="text-xs font-medium px-3.5 py-2 rounded-full" style="background:rgba(14,140,122,.1);color:var(--teal-dark)" data-i18n="about_tag3">Akademisyen</span>
         </div>
       </div>
     </div>
@@ -396,13 +471,14 @@
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="grid lg:grid-cols-3 gap-10 items-center">
       <div class="reveal-l">
-        <p class="eyebrow text-xs font-bold uppercase mb-4" style="color:var(--emerald-soft)">International Patients</p>
-        <h2 class="font-display text-3xl lg:text-4xl font-semibold text-white leading-tight">Üç dilde<br>kişisel danışmanlık</h2>
+        <p class="eyebrow text-xs font-bold uppercase mb-4" style="color:var(--emerald-soft)" data-i18n="intl_eyebrow">International Patients</p>
+        <h2 class="font-display text-3xl lg:text-4xl font-semibold text-white leading-tight" data-i18n="intl_title">Dört dilde<br>kişisel danışmanlık</h2>
       </div>
-      <div class="lg:col-span-2 grid sm:grid-cols-3 gap-4">
+      <div class="lg:col-span-2 grid sm:grid-cols-2 gap-4">
         <div class="card glass rounded-2xl p-6 reveal" style="transition-delay:.05s"><div class="font-display text-3xl font-bold text-white mb-1">Türkçe</div><p class="text-white/50 text-sm">Yerel danışanlarımız için tam kapsamlı program.</p></div>
         <div class="card glass rounded-2xl p-6 reveal" style="transition-delay:.13s"><div class="font-display text-3xl font-bold text-white mb-1">English</div><p class="text-white/50 text-sm">Full consultation & nutrition plans in English.</p></div>
         <div class="card glass rounded-2xl p-6 reveal" style="transition-delay:.21s"><div class="font-display text-3xl font-bold text-white mb-1">Русский</div><p class="text-white/50 text-sm">Индивидуальные программы питания на русском.</p></div>
+        <div class="card glass rounded-2xl p-6 reveal" style="transition-delay:.29s"><div class="font-display text-3xl font-bold text-white mb-1">Deutsch</div><p class="text-white/50 text-sm">Individuelle Ernährungsprogramme auf Deutsch.</p></div>
       </div>
     </div>
   </div>
@@ -414,9 +490,9 @@
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="grid lg:grid-cols-2 gap-14 items-center">
       <div class="reveal-l order-2 lg:order-1">
-        <p class="eyebrow text-xs font-bold uppercase mb-4" style="color:var(--teal)">Kliniğimiz</p>
-        <h2 class="font-display text-4xl lg:text-5xl font-semibold leading-[1.08] mb-6" style="color:var(--ink)">Avsallar'da<br><span class="italic" style="color:var(--teal)">huzurlu</span> bir alan</h2>
-        <p class="text-lg leading-relaxed mb-8" style="color:var(--muted)">Modern cihazlarla donatılmış, sıcak ve güven veren bir ortamda; analizden programa kadar her adımda yanınızdayız.</p>
+        <p class="eyebrow text-xs font-bold uppercase mb-4" style="color:var(--teal)" data-i18n="clinic_eyebrow">Kliniğimiz</p>
+        <h2 class="font-display text-4xl lg:text-5xl font-semibold leading-[1.08] mb-6" style="color:var(--ink)" data-i18n="clinic_title">Avsallar'da<br><span class="italic" style="color:var(--teal)">huzurlu</span> bir alan</h2>
+        <p class="text-lg leading-relaxed mb-8" style="color:var(--muted)" data-i18n="clinic_sub">Modern cihazlarla donatılmış, sıcak ve güven veren bir ortamda; analizden programa kadar her adımda yanınızdayız.</p>
         <div class="space-y-4">
           <div class="flex items-start gap-3"><svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color:var(--teal)" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span style="color:var(--ink)">Avsallar, Alanya — Antalya</span></div>
           <div class="flex items-start gap-3"><svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color:var(--teal)" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><a href="tel:05551653478" class="hover:underline" style="color:var(--ink)">0555 165 34 78</a></div>
@@ -435,11 +511,11 @@
   <div class="aurora" style="opacity:.3"><span class="a1"></span><span class="a3"></span></div>
   <div class="grain"></div>
   <div class="max-w-4xl mx-auto px-5 lg:px-8 text-center relative z-10 reveal">
-    <p class="eyebrow text-xs font-bold uppercase mb-5" style="color:var(--emerald-soft)">İlk Adımı Atın</p>
-    <h2 class="font-display text-4xl lg:text-6xl font-semibold text-white leading-[1.05] mb-6">Diyeti unutun,<br><span class="italic grad-text">sistemi keşfedin</span></h2>
-    <p class="text-white/65 text-lg leading-relaxed mb-10 max-w-xl mx-auto">Bahadır Bey ile ücretsiz ön görüşme için WhatsApp'tan yazın veya telefonla ulaşın. Size en uygun randevu saatini birlikte belirleyelim.</p>
+    <p class="eyebrow text-xs font-bold uppercase mb-5" style="color:var(--emerald-soft)" data-i18n="contact_eyebrow">İlk Adımı Atın</p>
+    <h2 class="font-display text-4xl lg:text-6xl font-semibold text-white leading-[1.05] mb-6" data-i18n="contact_title">Diyeti unutun,<br><span class="italic grad-text">sistemi keşfedin</span></h2>
+    <p class="text-white/65 text-lg leading-relaxed mb-10 max-w-xl mx-auto" data-i18n="contact_sub">Bahadır Bey ile ücretsiz ön görüşme için WhatsApp'tan yazın veya telefonla ulaşın. Size en uygun randevu saatini birlikte belirleyelim.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="https://wa.me/905551653478" class="wa btn-prim inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-white font-semibold" style="box-shadow:0 14px 30px -10px rgba(37,211,102,.5)"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp ile Yazın</a>
+      <a href="https://wa.me/905551653478" class="wa btn-prim inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-white font-semibold" style="box-shadow:0 14px 30px -10px rgba(37,211,102,.5)"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span data-i18n="contact_wa">WhatsApp ile Yazın</span></a>
       <a href="tel:05551653478" class="btn-ghost glass inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-white font-semibold hover:bg-white/10"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>0555 165 34 78</a>
     </div>
   </div>
@@ -455,29 +531,43 @@
           <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,var(--emerald),var(--teal))"><svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21c-4.97-3.06-8-6.66-8-10.5A4.5 4.5 0 0112 6a4.5 4.5 0 018 4.5c0 3.84-3.03 7.44-8 10.5z"/></svg></div>
           <span class="font-display text-lg font-bold text-white">BioFit <span class="font-light" style="color:var(--emerald-soft)">Clinic</span></span>
         </div>
-        <p class="text-white/45 text-sm leading-relaxed">Kan tahlili ve vücut analizine dayalı, yapay zeka destekli kişiye özel beslenme. Avsallar, Alanya.</p>
+        <p class="text-white/45 text-sm leading-relaxed" data-i18n="footer_desc">Kan tahlili ve vücut analizine dayalı, yapay zeka destekli kişiye özel beslenme. Avsallar, Alanya.</p>
       </div>
       <div class="flex flex-col gap-3 text-sm">
-        <span class="text-white/40 font-semibold uppercase tracking-wider text-xs mb-1">İletişim</span>
+        <span class="text-white/40 font-semibold uppercase tracking-wider text-xs mb-1" data-i18n="footer_contact_h">İletişim</span>
         <a href="tel:05551653478" class="text-white/60 hover:text-white transition-colors">0555 165 34 78</a>
-        <a href="https://wa.me/905551653478" class="text-white/60 hover:text-white transition-colors">WhatsApp ile ulaşın</a>
+        <a href="https://wa.me/905551653478" class="text-white/60 hover:text-white transition-colors" data-i18n="footer_wa">WhatsApp ile ulaşın</a>
         <span class="text-white/60">Avsallar, Alanya, Antalya</span>
       </div>
       <div class="flex flex-col gap-3 text-sm">
-        <span class="text-white/40 font-semibold uppercase tracking-wider text-xs mb-1">Keşfet</span>
-        <a href="#why" class="text-white/60 hover:text-white transition-colors">Yaklaşım</a>
-        <a href="#process" class="text-white/60 hover:text-white transition-colors">Süreç</a>
-        <a href="#results" class="text-white/60 hover:text-white transition-colors">Sonuçlar</a>
-        <a href="#about" class="text-white/60 hover:text-white transition-colors">Dr. Bahadır Bektaş</a>
+        <span class="text-white/40 font-semibold uppercase tracking-wider text-xs mb-1" data-i18n="footer_explore_h">Keşfet</span>
+        <a href="#why" class="text-white/60 hover:text-white transition-colors" data-i18n="nav_why">Yaklaşım</a>
+        <a href="#process" class="text-white/60 hover:text-white transition-colors" data-i18n="nav_process">Süreç</a>
+        <a href="#results" class="text-white/60 hover:text-white transition-colors" data-i18n="nav_results">Sonuçlar</a>
+        <a href="#about" class="text-white/60 hover:text-white transition-colors" data-i18n="footer_about">Dr. Bahadır Bektaş</a>
       </div>
     </div>
     <div class="h-px w-full bg-white/10 mb-6"></div>
     <div class="flex flex-col sm:flex-row justify-between gap-3 text-white/40 text-sm">
-      <p>© 2026 BioFit Clinic. Tüm hakları saklıdır.</p>
-      <p>Dr. Dyt. Bahadır Bektaş — Avsallar, Alanya</p>
+      <p data-i18n="footer_copyright">© 2026 BioFit Clinic. Tüm hakları saklıdır.</p>
+      <p data-i18n="footer_tagline">Dr. Dyt. Bahadır Bektaş — Avsallar, Alanya</p>
     </div>
   </div>
 </footer>
+
+<!-- Language scroll-hint toast -->
+<div id="langToast" role="status" aria-live="polite">
+  <div class="lt-inner">
+    <span class="text-lg" aria-hidden="true">🌐</span>
+    <span class="lt-msg"></span>
+    <button class="lt-go" aria-label="Aşağı kaydır / Scroll down">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.4"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+    </button>
+    <button class="lt-close" aria-label="Kapat / Close">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
 
 <a href="https://wa.me/905551653478" aria-label="WhatsApp" class="wa fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl float" style="box-shadow:0 12px 30px -6px rgba(37,211,102,.6)">
   <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -569,13 +659,264 @@
     window.addEventListener('mouseleave', () => glow.style.opacity = '0');
   }
 
-  // ── Marquee ───────────────────────────────────────────
-  const items = ['Kan Tahlili Analizi','Vücut Kompozisyonu','Kişiye Özel Program','Metabolik Sağlık','Yapay Zeka Destekli Takip','Sürdürülebilir Sonuç','Kan Grubuna Göre Beslenme'];
-  const sep = '<span style="color:var(--gold);margin:0 1.5rem">✦</span>';
-  const block = items.map(i => `<span class="font-display text-xl text-white/70 italic">${i}</span>`).join(sep);
+  // ── Marquee (language-aware) ──────────────────────────
   const mq = document.querySelector('.marquee');
-  mq.innerHTML = `<div class="flex items-center shrink-0 pr-12">${block}${sep}</div><div class="flex items-center shrink-0 pr-12">${block}${sep}</div>`;
-  if (reduce) mq.style.animation = 'none';
+  const mqSep = '<span style="color:var(--gold);margin:0 1.5rem">✦</span>';
+  function buildMarquee(items) {
+    const block = items.map(i => `<span class="font-display text-xl text-white/70 italic">${i}</span>`).join(mqSep);
+    mq.innerHTML = `<div class="flex items-center shrink-0 pr-12">${block}${mqSep}</div><div class="flex items-center shrink-0 pr-12">${block}${mqSep}</div>`;
+    if (reduce) mq.style.animation = 'none';
+  }
+
+  // ── i18n: TR / EN / RU / DE ───────────────────────────
+  const I18N = {
+    tr: {
+      __title: 'BioFit Clinic · Dr. Dyt. Bahadır Bektaş | Avsallar, Alanya',
+      __marquee: ['Kan Tahlili Analizi','Vücut Kompozisyonu','Kişiye Özel Program','Metabolik Sağlık','Yapay Zeka Destekli Takip','Sürdürülebilir Sonuç','Kan Grubuna Göre Beslenme'],
+      nav_why:'Yaklaşım', nav_process:'Süreç', nav_results:'Sonuçlar', nav_about:'Dr. Bahadır', nav_clinic:'Klinik', nav_cta:'Ücretsiz Ön Görüşme',
+      hero_scroll:'Keşfet',
+      why_eyebrow:'Neden BioFit Clinic',
+      why_title:`Bilime dayalı,<br><span class="italic" style="color:var(--teal)">kişiye özgü</span> yaklaşım`,
+      why_sub:'Vücudunuzun biyokimyasal yapısını okuyoruz; genel diyet listelerinin ötesinde, size özel bir harita çiziyoruz.',
+      card1_t:'Kan Tahlili Analizi', card1_d:'Kapsamlı kan tahliliyle vitamin–mineral eksikliklerinizi ve metabolik durumunuzu bilimsel olarak değerlendiriyoruz.',
+      card2_t:'Kan Grubuna Göre Beslenme', card2_d:'Kan grubunuza özel protokollerle vücudunuzun doğal ritmine uygun, sürdürülebilir bir beslenme düzeni.',
+      card3_t:'Vücut Kompozisyon Analizi', card3_d:'İleri biyoimpedans cihazlarıyla yağ–kas oranı, kemik yoğunluğu ve bazal metabolizma hızınızı ölçüyoruz.',
+      card4_t:'Yapay Zeka Destekli Takip', card4_d:'AI Concierge ile 7/24 akıllı asistan desteği; programınız verilerle sürekli güncellenir, yanınızda kalır.',
+      stat1:'Başarılı Danışan', stat2:'Hedef Başarısı', stat3:'Yıllık Deneyim', stat4:'Dil Desteği',
+      proc_eyebrow:'Nasıl Çalışıyoruz',
+      proc_title:`Dört adımda <span class="italic" style="color:var(--teal)">dönüşüm</span>`,
+      step1_t:'İlk Görüşme & Tahliller', step1_d:'Sağlık geçmişiniz dinlenir, kan tahlili ve vücut analizi planlanır. Hedefleriniz netleştirilir.',
+      step2_t:'Bilimsel Değerlendirme', step2_d:'Sonuçlar biyomedikal bakış açısıyla yorumlanır; eksiklikler ve metabolik profiliniz çıkarılır.',
+      step3_t:'Kişiye Özel Program', step3_d:'Damak tadınıza ve yaşam tarzınıza uygun, uygulanabilir ve sürdürülebilir beslenme planınız hazırlanır.',
+      step4_t:'AI Destekli Takip', step4_d:'AI Concierge ve düzenli kontrollerle ilerlemeniz izlenir; program ihtiyaçlarınıza göre güncellenir. Kalıcı sonuç hedeflenir.',
+      res_eyebrow:'Gerçek Sonuçlar',
+      res_title:`Gerçek danışanlar,<br><span class="italic grad-text">somut dönüşümler</span>`,
+      res_verified:'Doğrulanmış', res1_sub:'6 aylık program sonucu', res2_sub:'metabolik denge ile',
+      res_quote:'“Yıllarca denediğim diyetlerden farklıydı. İlk kez vücudumun gerçekten neye ihtiyacı olduğunu öğrendim ve kilolar geri gelmedi.”',
+      res_quote_name:'Bir BioFit danışanı', res_quote_meta:'6 aylık program · Avsallar',
+      about_eyebrow:'Kurucu Hekim',
+      about_title:`Dr. Dyt.<br>Bahadır Bektaş`,
+      about_bio:`Diyetetik ile biyomedikal mühendisliğini birleştiren ender uzmanlardan. Beslenmeye yalnızca kalori değil; <span style="color:var(--ink)">metabolizma, biyokimya ve veri</span> penceresinden bakıyor. Akademik birikimini her danışanın kişisel programına taşıyor.`,
+      about_phd_label:'Doktora', about_exp_label:'Yıl Deneyim', about_clients_label:'Danışan',
+      about_tag1:'Doktora Diyetisyen', about_tag2:'Biyomedikal Mühendis', about_tag3:'Akademisyen',
+      intl_eyebrow:'International Patients',
+      intl_title:`Dört dilde<br>kişisel danışmanlık`,
+      clinic_eyebrow:'Kliniğimiz',
+      clinic_title:`Avsallar'da<br><span class="italic" style="color:var(--teal)">huzurlu</span> bir alan`,
+      clinic_sub:'Modern cihazlarla donatılmış, sıcak ve güven veren bir ortamda; analizden programa kadar her adımda yanınızdayız.',
+      contact_eyebrow:'İlk Adımı Atın',
+      contact_title:`Diyeti unutun,<br><span class="italic grad-text">sistemi keşfedin</span>`,
+      contact_sub:`Bahadır Bey ile ücretsiz ön görüşme için WhatsApp'tan yazın veya telefonla ulaşın. Size en uygun randevu saatini birlikte belirleyelim.`,
+      contact_wa:'WhatsApp ile Yazın',
+      footer_desc:'Kan tahlili ve vücut analizine dayalı, yapay zeka destekli kişiye özel beslenme. Avsallar, Alanya.',
+      footer_contact_h:'İletişim', footer_wa:'WhatsApp ile ulaşın', footer_explore_h:'Keşfet',
+      footer_about:'Dr. Bahadır Bektaş',
+      footer_copyright:'© 2026 BioFit Clinic. Tüm hakları saklıdır.',
+      footer_tagline:'Dr. Dyt. Bahadır Bektaş — Avsallar, Alanya',
+      lang_toast:'Sitemiz Türkçe görüntüleniyor',
+    },
+    en: {
+      __title: 'BioFit Clinic · Dr. Dietitian Bahadır Bektaş | Avsallar, Alanya',
+      __marquee: ['Blood Test Analysis','Body Composition','Personalised Plan','Metabolic Health','AI-Powered Follow-Up','Sustainable Results','Blood-Type Nutrition'],
+      nav_why:'Approach', nav_process:'Process', nav_results:'Results', nav_about:'Dr. Bahadır', nav_clinic:'Clinic', nav_cta:'Free Consultation',
+      hero_scroll:'Explore',
+      why_eyebrow:'Why BioFit Clinic',
+      why_title:`Science-based,<br><span class="italic" style="color:var(--teal)">personalised</span> approach`,
+      why_sub:`We read your body's biochemistry and, beyond generic diet lists, draw a map made just for you.`,
+      card1_t:'Blood Test Analysis', card1_d:'With a comprehensive blood panel we scientifically assess your vitamin–mineral deficiencies and metabolic status.',
+      card2_t:'Blood-Type Nutrition', card2_d:`Protocols tailored to your blood type for a sustainable diet aligned with your body's natural rhythm.`,
+      card3_t:'Body Composition Analysis', card3_d:'Using advanced bioimpedance devices we measure your fat–muscle ratio, bone density and basal metabolic rate.',
+      card4_t:'AI-Powered Follow-Up', card4_d:'24/7 smart assistant support via AI Concierge; your plan is continuously updated with your data and stays by your side.',
+      stat1:'Successful Clients', stat2:'Goal Success Rate', stat3:'Years of Experience', stat4:'Languages Supported',
+      proc_eyebrow:'How It Works',
+      proc_title:`Transformation <span class="italic" style="color:var(--teal)">in four steps</span>`,
+      step1_t:'First Consultation & Tests', step1_d:'We listen to your health history, plan your blood test and body analysis, and clarify your goals.',
+      step2_t:'Scientific Evaluation', step2_d:'Results are interpreted from a biomedical perspective; deficiencies and your metabolic profile are identified.',
+      step3_t:'Personalised Plan', step3_d:'A practical, sustainable nutrition plan is built around your taste and lifestyle.',
+      step4_t:'AI-Powered Follow-Up', step4_d:'With AI Concierge and regular check-ins your progress is tracked and the plan adapts to your needs — for lasting results.',
+      res_eyebrow:'Real Results',
+      res_title:`Real clients,<br><span class="italic grad-text">tangible transformations</span>`,
+      res_verified:'Verified', res1_sub:'after a 6-month program', res2_sub:'with metabolic balance',
+      res_quote:`“It was different from the diets I tried for years. For the first time I learned what my body truly needs — and the weight didn't come back.”`,
+      res_quote_name:'A BioFit client', res_quote_meta:'6-month program · Avsallar',
+      about_eyebrow:'Founding Clinician',
+      about_title:`Dr. Dietitian<br>Bahadır Bektaş`,
+      about_bio:`One of the rare specialists combining dietetics with biomedical engineering. He views nutrition not just as calories but through the lens of <span style="color:var(--ink)">metabolism, biochemistry and data</span>, bringing his academic depth into every client's personal plan.`,
+      about_phd_label:'Doctorate', about_exp_label:`Years' Experience`, about_clients_label:'Clients',
+      about_tag1:'PhD Dietitian', about_tag2:'Biomedical Engineer', about_tag3:'Academic',
+      intl_eyebrow:'International Patients',
+      intl_title:`Personal guidance<br>in four languages`,
+      clinic_eyebrow:'Our Clinic',
+      clinic_title:`A <span class="italic" style="color:var(--teal)">peaceful</span><br>space in Avsallar`,
+      clinic_sub:`In a warm, reassuring space equipped with modern devices, we're with you at every step from analysis to plan.`,
+      contact_eyebrow:'Take the First Step',
+      contact_title:`Forget dieting,<br><span class="italic grad-text">discover the system</span>`,
+      contact_sub:`Message on WhatsApp or call for a free consultation with Dr. Bahadır. Together we'll find the appointment time that suits you best.`,
+      contact_wa:'Message on WhatsApp',
+      footer_desc:'AI-powered personalised nutrition based on blood tests and body analysis. Avsallar, Alanya.',
+      footer_contact_h:'Contact', footer_wa:'Reach us on WhatsApp', footer_explore_h:'Explore',
+      footer_about:'Dr. Bahadır Bektaş',
+      footer_copyright:'© 2026 BioFit Clinic. All rights reserved.',
+      footer_tagline:'Dr. Dietitian Bahadır Bektaş — Avsallar, Alanya',
+      lang_toast:'To browse our site in English, scroll down',
+    },
+    ru: {
+      __title: 'BioFit Clinic · Диетолог Бахадыр Бекташ | Авсаллар, Аланья',
+      __marquee: ['Анализ крови','Состав тела','Индивидуальная программа','Метаболическое здоровье','Сопровождение с ИИ','Устойчивый результат','Питание по группе крови'],
+      nav_why:'Подход', nav_process:'Процесс', nav_results:'Результаты', nav_about:'Доктор', nav_clinic:'Клиника', nav_cta:'Бесплатная консультация',
+      hero_scroll:'Листайте',
+      why_eyebrow:'Почему BioFit Clinic',
+      why_title:`Научный,<br><span class="italic" style="color:var(--teal)">персональный</span> подход`,
+      why_sub:'Мы изучаем биохимию вашего организма и вместо общих диет составляем карту именно для вас.',
+      card1_t:'Анализ крови', card1_d:'По развёрнутому анализу крови мы научно оцениваем дефицит витаминов и минералов и ваш метаболический статус.',
+      card2_t:'Питание по группе крови', card2_d:'Протоколы под вашу группу крови — устойчивое питание в гармонии с естественным ритмом организма.',
+      card3_t:'Анализ состава тела', card3_d:'С помощью современных биоимпедансных приборов измеряем соотношение жира и мышц, плотность костей и базовый обмен веществ.',
+      card4_t:'Сопровождение с ИИ', card4_d:'Умный помощник AI Concierge 24/7: ваша программа постоянно обновляется по данным и всегда рядом.',
+      stat1:'Довольных клиентов', stat2:'Достижение целей', stat3:'Лет опыта', stat4:'Языка поддержки',
+      proc_eyebrow:'Как мы работаем',
+      proc_title:`Преображение <span class="italic" style="color:var(--teal)">за четыре шага</span>`,
+      step1_t:'Первая встреча и анализы', step1_d:'Мы изучаем вашу историю здоровья, планируем анализ крови и состава тела, уточняем цели.',
+      step2_t:'Научная оценка', step2_d:'Результаты интерпретируются с биомедицинской точки зрения; выявляются дефициты и ваш метаболический профиль.',
+      step3_t:'Индивидуальная программа', step3_d:'Составляется удобная и устойчивая программа питания с учётом ваших вкусов и образа жизни.',
+      step4_t:'Сопровождение с ИИ', step4_d:'С AI Concierge и регулярными проверками мы отслеживаем прогресс и адаптируем программу — ради устойчивого результата.',
+      res_eyebrow:'Реальные результаты',
+      res_title:`Реальные клиенты,<br><span class="italic grad-text">ощутимые перемены</span>`,
+      res_verified:'Подтверждено', res1_sub:'за 6-месячную программу', res2_sub:'через метаболический баланс',
+      res_quote:'«Это отличалось от диет, которые я пробовала годами. Впервые я поняла, что действительно нужно моему телу, — и вес не вернулся.»',
+      res_quote_name:'Клиент BioFit', res_quote_meta:'6-месячная программа · Авсаллар',
+      about_eyebrow:'Врач-основатель',
+      about_title:`Доктор-диетолог<br>Бахадыр Бекташ`,
+      about_bio:`Один из редких специалистов, объединяющих диетологию и биомедицинскую инженерию. Он смотрит на питание не как на калории, а через призму <span style="color:var(--ink)">метаболизма, биохимии и данных</span>, перенося академический опыт в персональную программу каждого клиента.`,
+      about_phd_label:'Докторская', about_exp_label:'лет опыта', about_clients_label:'Клиентов',
+      about_tag1:'Диетолог, PhD', about_tag2:'Биомедицинский инженер', about_tag3:'Учёный',
+      intl_eyebrow:'Иностранным пациентам',
+      intl_title:`Персональные консультации<br>на четырёх языках`,
+      clinic_eyebrow:'Наша клиника',
+      clinic_title:`<span class="italic" style="color:var(--teal)">Уютное</span><br>пространство в Авсалларе`,
+      clinic_sub:'В тёплой и располагающей атмосфере с современным оборудованием мы рядом на каждом шаге — от анализа до программы.',
+      contact_eyebrow:'Сделайте первый шаг',
+      contact_title:`Забудьте о диетах,<br><span class="italic grad-text">откройте систему</span>`,
+      contact_sub:'Напишите в WhatsApp или позвоните, чтобы записаться на бесплатную консультацию с доктором Бахадыром. Вместе подберём удобное вам время.',
+      contact_wa:'Написать в WhatsApp',
+      footer_desc:'Персональное питание на основе анализов крови и состава тела с поддержкой ИИ. Авсаллар, Аланья.',
+      footer_contact_h:'Контакты', footer_wa:'Написать в WhatsApp', footer_explore_h:'Навигация',
+      footer_about:'Доктор Бахадыр Бекташ',
+      footer_copyright:'© 2026 BioFit Clinic. Все права защищены.',
+      footer_tagline:'Доктор-диетолог Бахадыр Бекташ — Авсаллар, Аланья',
+      lang_toast:'Чтобы пользоваться сайтом на русском, прокрутите вниз',
+    },
+    de: {
+      __title: 'BioFit Clinic · Dr. Ernährungsberater Bahadır Bektaş | Avsallar, Alanya',
+      __marquee: ['Blutbild-Analyse','Körperanalyse','Individueller Plan','Metabolische Gesundheit','KI-gestützte Betreuung','Nachhaltige Ergebnisse','Ernährung nach Blutgruppe'],
+      nav_why:'Ansatz', nav_process:'Ablauf', nav_results:'Ergebnisse', nav_about:'Dr. Bahadır', nav_clinic:'Klinik', nav_cta:'Kostenloses Vorgespräch',
+      hero_scroll:'Entdecken',
+      why_eyebrow:'Warum BioFit Clinic',
+      why_title:`Wissenschaftlich fundierter,<br><span class="italic" style="color:var(--teal)">individueller</span> Ansatz`,
+      why_sub:'Wir lesen die Biochemie Ihres Körpers und erstellen — weit über allgemeine Diätpläne hinaus — eine Karte nur für Sie.',
+      card1_t:'Blutbild-Analyse', card1_d:'Mit einem umfassenden Blutbild bewerten wir wissenschaftlich Ihre Vitamin- und Mineralstoffdefizite sowie Ihren Stoffwechselstatus.',
+      card2_t:'Ernährung nach Blutgruppe', card2_d:'Auf Ihre Blutgruppe abgestimmte Protokolle für eine nachhaltige Ernährung im natürlichen Rhythmus Ihres Körpers.',
+      card3_t:'Körperanalyse', card3_d:'Mit modernen Bioimpedanz-Geräten messen wir Ihr Fett-Muskel-Verhältnis, die Knochendichte und Ihren Grundumsatz.',
+      card4_t:'KI-gestützte Betreuung', card4_d:'24/7-Unterstützung durch den AI Concierge; Ihr Programm wird laufend mit Ihren Daten aktualisiert und bleibt an Ihrer Seite.',
+      stat1:'Erfolgreiche Klienten', stat2:'Zielerreichung', stat3:'Jahre Erfahrung', stat4:'Sprachen',
+      proc_eyebrow:'So arbeiten wir',
+      proc_title:`Veränderung <span class="italic" style="color:var(--teal)">in vier Schritten</span>`,
+      step1_t:'Erstgespräch & Tests', step1_d:'Wir hören uns Ihre Krankengeschichte an, planen Blutbild und Körperanalyse und definieren Ihre Ziele.',
+      step2_t:'Wissenschaftliche Auswertung', step2_d:'Die Ergebnisse werden biomedizinisch ausgewertet; Defizite und Ihr Stoffwechselprofil werden ermittelt.',
+      step3_t:'Individueller Plan', step3_d:'Es entsteht ein praktischer, nachhaltiger Ernährungsplan, der zu Ihrem Geschmack und Lebensstil passt.',
+      step4_t:'KI-gestützte Betreuung', step4_d:'Mit AI Concierge und regelmäßigen Kontrollen wird Ihr Fortschritt verfolgt und der Plan angepasst — für dauerhafte Ergebnisse.',
+      res_eyebrow:'Echte Ergebnisse',
+      res_title:`Echte Klienten,<br><span class="italic grad-text">spürbare Veränderung</span>`,
+      res_verified:'Verifiziert', res1_sub:'nach 6-monatigem Programm', res2_sub:'durch Stoffwechsel-Balance',
+      res_quote:'„Es war anders als alle Diäten, die ich jahrelang versucht habe. Zum ersten Mal habe ich verstanden, was mein Körper wirklich braucht — und die Kilos kamen nicht zurück.“',
+      res_quote_name:'Eine BioFit-Klientin', res_quote_meta:'6-monatiges Programm · Avsallar',
+      about_eyebrow:'Gründender Mediziner',
+      about_title:`Dr. Ernährungsberater<br>Bahadır Bektaş`,
+      about_bio:`Einer der seltenen Spezialisten, die Diätetik mit Biomedizintechnik verbinden. Ernährung sieht er nicht nur als Kalorien, sondern durch die Linse von <span style="color:var(--ink)">Stoffwechsel, Biochemie und Daten</span> — und bringt sein akademisches Wissen in jeden individuellen Plan ein.`,
+      about_phd_label:'Doktortitel', about_exp_label:'Jahre Erfahrung', about_clients_label:'Klienten',
+      about_tag1:'Diätologe (PhD)', about_tag2:'Biomedizin-Ingenieur', about_tag3:'Akademiker',
+      intl_eyebrow:'Internationale Patienten',
+      intl_title:`Persönliche Beratung<br>in vier Sprachen`,
+      clinic_eyebrow:'Unsere Klinik',
+      clinic_title:`Ein <span class="italic" style="color:var(--teal)">ruhiger</span><br>Ort in Avsallar`,
+      clinic_sub:'In einer warmen, vertrauensvollen Umgebung mit moderner Ausstattung begleiten wir Sie bei jedem Schritt — von der Analyse bis zum Plan.',
+      contact_eyebrow:'Machen Sie den ersten Schritt',
+      contact_title:`Vergessen Sie Diäten,<br><span class="italic grad-text">entdecken Sie das System</span>`,
+      contact_sub:'Schreiben Sie auf WhatsApp oder rufen Sie an für ein kostenloses Vorgespräch mit Dr. Bahadır. Gemeinsam finden wir den passenden Termin.',
+      contact_wa:'Auf WhatsApp schreiben',
+      footer_desc:'KI-gestützte, individuelle Ernährung auf Basis von Blutbild und Körperanalyse. Avsallar, Alanya.',
+      footer_contact_h:'Kontakt', footer_wa:'Über WhatsApp erreichen', footer_explore_h:'Entdecken',
+      footer_about:'Dr. Bahadır Bektaş',
+      footer_copyright:'© 2026 BioFit Clinic. Alle Rechte vorbehalten.',
+      footer_tagline:'Dr. Ernährungsberater Bahadır Bektaş — Avsallar, Alanya',
+      lang_toast:'Um unsere Seite auf Deutsch zu nutzen, scrollen Sie nach unten',
+    },
+  };
+
+  function setLang(lang) {
+    const dict = I18N[lang] || I18N.tr;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const v = dict[el.getAttribute('data-i18n')];
+      if (v != null) el.innerHTML = v;
+    });
+    if (dict.__title) document.title = dict.__title;
+    buildMarquee(dict.__marquee || I18N.tr.__marquee);
+    document.querySelectorAll('.lang-current').forEach(el => el.textContent = lang.toUpperCase());
+    document.querySelectorAll('.lang-opt').forEach(o => o.classList.toggle('active', o.dataset.lang === lang));
+    try { localStorage.setItem('biofit_lang', lang); } catch(e) {}
+    if (lang !== 'tr') showLangToast(dict.lang_toast); else hideLangToast();
+  }
+
+  // dropdown toggles
+  document.querySelectorAll('.lang-toggle').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const menu = btn.parentElement.querySelector('.lang-menu');
+      const willOpen = menu.classList.contains('hidden');
+      document.querySelectorAll('.lang-menu').forEach(m => m.classList.add('hidden'));
+      if (willOpen) menu.classList.remove('hidden');
+      btn.setAttribute('aria-expanded', String(willOpen));
+    });
+  });
+  document.querySelectorAll('.lang-opt').forEach(opt => {
+    opt.addEventListener('click', e => {
+      e.stopPropagation();
+      setLang(opt.dataset.lang);
+      document.querySelectorAll('.lang-menu').forEach(m => m.classList.add('hidden'));
+      closeMob();
+    });
+  });
+  document.addEventListener('click', () => document.querySelectorAll('.lang-menu').forEach(m => m.classList.add('hidden')));
+
+  // ── Language scroll-hint toast ────────────────────────
+  const langToast = document.getElementById('langToast');
+  const ltMsg = langToast.querySelector('.lt-msg');
+  let toastTimer = null;
+  function showLangToast(msg) {
+    if (!msg) return;
+    ltMsg.textContent = msg;
+    langToast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(hideLangToast, 8500);
+  }
+  function hideLangToast() { langToast.classList.remove('show'); clearTimeout(toastTimer); }
+  langToast.querySelector('.lt-go').addEventListener('click', () => {
+    const t = document.getElementById('why');
+    if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 72, behavior: reduce ? 'auto' : 'smooth' });
+    hideLangToast();
+  });
+  langToast.querySelector('.lt-close').addEventListener('click', hideLangToast);
+  // dismiss once the visitor scrolls past the hero on their own
+  window.addEventListener('scroll', () => { if (window.scrollY > 140) hideLangToast(); }, { passive: true });
+
+  // init: saved choice → browser language → TR
+  let initLang = 'tr';
+  try { initLang = localStorage.getItem('biofit_lang') || ''; } catch(e) {}
+  if (!initLang) {
+    const b = (navigator.language || 'tr').slice(0,2).toLowerCase();
+    initLang = ['tr','en','ru','de'].includes(b) ? b : 'tr';
+  }
+  setLang(initLang);
 
   // ── Smooth anchor offset ──────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(a => {
